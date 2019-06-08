@@ -25,7 +25,7 @@ Examples:
 			target=Ability_Names_Builder
 			type=ability
 			name=Build $self.UnitName.this$
-			descr=$self.UnitName.this$ trains $self.UnitName.Ability1.cf_unit_name.this$. Cheap meele Units.<br>Upgradable to Defender.<br><br>Gold Cost: $self.cf_AbilityGoldCost$
+			descr=$self.UnitName.this$ trains $cf_01_cr_01_footman.this$. Cheap meele Units.<br>Upgradable to $cf_01_cr_07_defender.this$.<br><br>Gold Cost: $self.cf_AbilityGoldCost$
 		*/
 		"BaseClass"                     "ability_datadriven"
 		"AbilityTextureName"			""
