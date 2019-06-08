@@ -1,0 +1,4 @@
+_GuiGetBoxBool($ID) Reads Checkbox if $GUI_CHECKED Return 1 else Returns 0 (Requires: #include <_AdvGui.au3>)
+_GuiGetListChar($ID,$n=1) Returns $n Chars of Control (Requires: #include <_AdvGui.au3>)
+_GuiListView_SortHeader() Sorts Header of ListView Control. Use directly via GuiCtrlOnEvent ONLY (Requires: #include <_AdvGui.au3>)
+_GUICtrlListView_CreateArray($hListView, $sDelimeter = '|') Creates a 2-dimensional array from a listview. (Requires: #include <_AdvGui.au3>)

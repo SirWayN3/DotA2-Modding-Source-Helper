@@ -1,0 +1,5 @@
+_Con_W($mode,$s=1) Write Row(s) to Console depending on $mode: -1=Write $s, 0=Linefeed Count with $s, 1=Single Line of #, 2=Fill $s with # (Requires: #include <_Console.au3>)
+_Con_W_Header([$s=-1]) Write Header to Console. Use $s to set new Header String. Var: $sConHeader (Requires: #include <_Console.au3>)
+_Con_Wait() Write Wait Dialog to console to make the User hit Hotkey. Use @extended to get what Hotkey. 1=Continue, 2=Quit (Requires: #include <_Console.au3>)
+_Con_Wait_Quit() Write Wait to Quit Dialog to console to make the User hit Hotkey. Use @extended to get what Hotkey. 2=Quit (Requires #include <_Console.au3>)
+_Con_Clear($mode=0) Clears Console output. Use $mode: 1=Writes new Header Console (See _Con_W_Header). (Requires #include <_Console.au3>)

@@ -1,0 +1,4 @@
+_Mouse_Hover_Information_Start() (Requires: #include <_Mouse_Hover.au3>)
+_Mouse_Hover_Information_Stop() (Requires: #include <_Mouse_Hover.au3>)
+_Mouse_Hover_Information_Get() (Requires: #include <_Mouse_Hover.au3>)
+_Mouse_Hover_SetMainGui() Sets Pointer to GUI, which cannot be used to change Values. Prevents Recursion. (Requires: #include <_Mouse_Hover.au3>)

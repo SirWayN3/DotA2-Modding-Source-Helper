@@ -1,0 +1,6 @@
+_StrGet($ID,$Struct = $strStruct_Target) Get Data out of Struct(Requires: (Requires: #include <_Struct.au3>)
+_StrSet($ID, $Val, $Struct = $strStruct_Target) Set Data to Struct. (Requires: #include <_Struct.au3>)
+_StrSetDebug($debug_flag = True) Set Debug Mode on. Debug will be written to Console (Requires: #include <_Struct.au3>)
+_StrSetStruct($Struct) Set $strStruct_Target to use Functions more easily. (Requires: #include <_Struct.au3>)
+_StrSetStructValFromArraySearch(ByRef Const $Array,$value,$StructID, $ArrayDimSearch,$ArrayDimTarget,$Struct = $strStruct_Target) Set Value for $StructID from Array with ArraySearchString. Pass the right Dimensions to Search for String and take Value. (Requires: #include <_Struct.au3>)
+_StrCreate($String) Create Struct by using the String supported. (Requires: #include <_Help_Struct.au3>)

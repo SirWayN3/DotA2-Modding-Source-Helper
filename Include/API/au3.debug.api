@@ -1,0 +1,4 @@
+_DbgSetDebug($Debug_Flag = True,$file = $dbgFile) Set Debug Function on. Set new File if required. Standard: Debug.txt Requires: #include <_Debug.au3>)
+_DbgW($String,$file = $dbgFile) Write String to File. Requires: #include <_Debug.au3>)
+_DbgSetOption($i = $dbgToCon,$j = $dbgToFile) Set Debug Options. Requires: #include <_Debug.au3>)
+_DbgSetFile($file = $dbgFile) Set new File to write in case $dbgToFile. Requires: #include <_Debug.au3>)

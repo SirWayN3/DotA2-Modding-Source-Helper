@@ -1,0 +1,4 @@
+_PrcCheck($s = $prcFile) Check if Process File is present and Running. (Requires: #include <_Process.au3>)
+_PrcSave($s = $prcFile) Save Process File. (Requires: #include <_Process.au3>)
+_PrcDel($s = $prcFile) Delete Process File. (Requires: #include <_Process.au3>)
+_PrcSetFile($s = "") Set intern Variable $prcFile. (Requires: #include <_Process.au3>)

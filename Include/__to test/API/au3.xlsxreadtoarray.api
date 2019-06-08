@@ -1,0 +1,2 @@
+_XLSXReadToArray($XLSXFilePath, $iFlag = 0, $Cols = 0, $Rows = 0, $iSheet = 1) Reads the EXCEL XLSX Sheet into an Array (Requires: #include <_XLSXReadToArray.au3>)
+_XLSXSheetGetColumnNumber($ColumnName, $iFlag = 0) Return Column Number of EXCEL XLSX Sheet (Requires: #include <_XLSXReadToArray.au3>)
