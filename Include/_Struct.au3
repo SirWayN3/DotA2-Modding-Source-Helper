@@ -36,13 +36,14 @@ EndFunc
 
 Func _StrGet($ID,$Struct = $strStruct_Target, $silent = false)
 	If IsDllStruct($Struct) = 0 Then
-		If Not $silent Then MsgBox(16, "Error", "Passed Structure is not a Struct!" & @LF &  "Value " & $ID & " cant be retrieved." & @TAB & "Error: " & @error)
+		If Not $silent Then MsgBox(16, "Error", "Passed Structure is not a Struct! " & @TAB & $Struct & @LF &  "Value " & $ID & " cant be retrieved." & @TAB & "Error: " & @error)
 		Return SetError(1,_StrDebugWrite("Internal Error, passed 2nd Param is not a Structure!" & @LF & $ID), "")
 	EndIf
 	Local $i = DllStructGetData($Struct, $ID)
-	If @error Then
-		If Not $silent Then MsgBox(16, "Error", "Value " & $ID & " cant be retrieved." & @TAB & "Error: " & @error)
-		Return SetError(1, _StrDebugWrite("Internal Error, cant get Data of Struct! Error Number: " & @error & @TAB & $ID), "")
+	Local $err = @error
+	If $err Then
+		If Not $silent Then MsgBox(16, "Error", "Value " & $ID & " cant be retrieved." & @TAB & "Error: " & $err & @LF & "Struct Name:" & $Struct)
+		Return SetError(1, _StrDebugWrite("Internal Error, cant get Data of Struct! Error Number: " & $err & @TAB & $ID), "")
 	EndIf
 ;~ 	_StrDebugWrite("_StrGet: ID: " & $ID & " Return Val: " & $i)
 	Return $i

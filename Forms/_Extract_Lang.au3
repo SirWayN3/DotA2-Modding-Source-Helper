@@ -17,7 +17,7 @@ Func _Extract_Lang_From_Struct()
 	For $i = 1 To $aStructCollection[0] -1 Step 1
 		$ID = $aStructCollection[$i]
 		
-		_DbgW(@TAB & $ID)
+		_DbgW("Extract from ID: " & $ID)
 		$target = _StrGet($sStructLangPrefix & "target", Eval($ID), true)
 ;~ 		MsgBox(0, IsInt($target), $target)
 		if $target = "" Then
@@ -93,30 +93,40 @@ Func _Extract_GetFromStruct($struct, $ID)
 ;~ 		_ArrayDisplay($a)
 		For $i = 1 To $a[0] Step 1
 			If Mod($i, 2) = 0 Then
-				_DbgW("Extract_GetFromStruct: "& $i)
 				$b = StringSplit($a[$i], ".")
 				For $j = 1 To $b[0] Step 1
-					_DbgW(@TAB & "Extract_GetFromStruct: " & $b[$j])
+					_DbgW(@TAB & "StructName: " & $target & @TAB & @TAB & "ID: " & $b[$j])
 					Switch $b[$j]
 						Case "self"
 							$target = $struct
 						Case "this"
 							$text = _StrGet($sStructLangPrefix & "name", Eval($target))
 						Case Else
-							$text = _StrGet($b[$j], Eval($target))
+							If $j = 1 Then
+								$text = $b[$j]
+							else
+								_DbgW(@TAB & @TAB & "IsStruct: " & IsDllStruct(Eval($target)))
+								If IsDllStruct(Eval($target)) Then 
+									$text = _StrGet($b[$j], Eval($target))
+								Else
+									$text = _StrGet($b[$j], $target)
+								EndIf
+							EndIf
 							$target = $text
 					EndSwitch
 					_DbgW(@TAB & @TAB& "Target Struct for next: " & $target)
 				Next
 				$ret &= $text
+				_DbgW()
 			Else
 				$ret &= $a[$i]
 			EndIf
 		Next
-		_DbgW(@TAB & @TAB & "Resulting Text:" & $ret)
+		_DbgW(@TAB & @TAB & @TAB & "Resulting Text: " & $ret)
 ;~ 		MsgBox(0, 0, $ret)
 		$s = $ret
 	EndIf 
+	_DbgW()
 	Return $s
 EndFunc 
 Func _Extract_GetID($s)
