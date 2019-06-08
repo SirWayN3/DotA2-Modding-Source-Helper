@@ -13,6 +13,8 @@ This Script will allow you do to the following:
 - Apply Additional Language Description Directly into those Source Files. Also able to access KeyValues through the Structure
 - Merge Language Files into the according DotA2 Files.
 
+To Do:
+	Rename Config/Template_Config.ini to Config.ini and set the Folders Accordingly.
 
 Examples:
 
