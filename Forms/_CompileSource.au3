@@ -180,7 +180,8 @@ Func _Compile_Source__ReadIni($file, ByRef $struct)
 					$struct =  $struct & $str
 				Else ; Key is not self, so use an own struct for the data
 					; Leading Entry for ID is missing in Struct. First Part has to be ID; else pass ID as optional Param
-					_Compile_Source__CreateStruct($str, $ini_sections[$j] )
+					_DbgW(@TAB & @TAB & "Struct Data:" & @TAB & $str)
+					_Compile_Source__CreateStruct($sStructDelim & $str, $ini_sections[$j] )
 ;~ 					MsgBox(0, 0, 0)
 				EndIf 
 			EndIf
