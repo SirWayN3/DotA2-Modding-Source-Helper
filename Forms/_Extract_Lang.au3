@@ -1,31 +1,41 @@
 ;_Extract_Lang.au3
 
 Global $aFileHandlesExtract[2]
+	$aFileHandlesExtract[0] = 1
 Global $sFileHandlePreFix = "FileHandle_"
 
 Func _Extract_Lang_From_Struct()
 	_DbgW()
 	_DbgW("Extract from Struct to Lang File")
-	Local $target, $ID
+	#Region Init Vars
+	
+		Local $target, $ID
+	#EndRegion
 	DirRemove($sExtractSourceFolderTarget, $DIR_REMOVE )
 	DirCreate($sExtractSourceFolderTarget)
 	FileWrite($sExtractSourceFolderTarget & "00_ReadMe.txt", "Automatically Created Files. Any Changes will be overwritten!")
+;~ 	$aFileHandlesExtract[1] = FileOpen($sExtractSourceFolderTarget & "NO_TARGET_APPLIED.txt", $FO_CREATEPATH + $FO_APPEND )
 	
-	$aFileHandlesExtract[1] = FileOpen($sExtractSourceFolderTarget & "NO_TARGET_APPLIED.txt", $FO_CREATEPATH + $FO_APPEND )
-	$aFileHandlesExtract[0] = 1
 	
 	For $i = 1 To $aStructCollection[0] -1 Step 1
 		$ID = $aStructCollection[$i]
-		
+;~ 		MsgBox(0, 0, $ID)
 		_DbgW("Extract from ID: " & $ID)
 		$target = _StrGet($sStructLangPrefix & "target", Eval($ID), true)
 ;~ 		MsgBox(0, IsInt($target), $target)
+		If $target = "" Then
+			$target = "NO_TARGET_APPLIED.cpp"
+		EndIf
+		$target = $sExtractSourceFolderTarget & $target & ".cpp"
+		#cs
 		if $target = "" Then
 			$target = $aFileHandlesExtract[1]
 		Else
-			
 			If IsDeclared($sFileHandlePreFix & $target) Then
+				
 				$target = Eval($sFileHandlePreFix & $target)
+				
+				_DbgW(@TAB& @TAB& "Target File: "& $target)
 			Else
 				$aFileHandlesExtract[0] += 1
 				If UBound($aFileHandlesExtract) <= $aFileHandlesExtract[0] Then 
@@ -36,11 +46,9 @@ Func _Extract_Lang_From_Struct()
 				$target = $aFileHandlesExtract[$aFileHandlesExtract[0]]
 			EndIf
 		EndIf
+		#ce
 		
-
-		$ID = $ID
-		
-		
+		_DbgW(@TAB & "Target File: " & $target & @TAB & $aFileHandlesExtract[0])
 		Switch StringLower(_Extract_GetType($ID))
 			Case "ability", "item"
 				_Extract_WriteLine($target, "DOTA_Tooltip_Ability_" & $ID, _Extract_GetName($ID))
@@ -61,14 +69,17 @@ Func _Extract_Lang_From_Struct()
 ;~ 				_Extract_WriteLine($target, $id, descr)
 		EndSwitch 
 		FileWriteLine($target, "")
-		FileWriteLine($target, "")
+;~ 		FileWriteLine($target, "")
 		_DbgW()
 	Next 
-	
+;~ 	MsgBox(0, 0, 0)
+	#cs
 	For $i = 1 To $aFileHandlesExtract[0] Step 1
 		_DbgW("Closing File Handles... " & $aFileHandlesExtract[$i])
 		FileClose($aFileHandlesExtract[$i])
+;~ 		$aFileHandlesExtract[$i] = ""
 	Next 
+	#ce
 	_DbgW("LanguageFromFile Extract Done.")
 EndFunc
 

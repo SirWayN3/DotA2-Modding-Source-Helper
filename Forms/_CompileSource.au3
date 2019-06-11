@@ -12,7 +12,8 @@ Func _Compile_Source_Init()
 	
 	For $i =  0 TO UBOund($asCompileSourceFiles) -1 Step 1
 		$asCompileSourceFiles[$i] = $sCompileSourceFolderTarget & $asCompileSourceFiles[$i]
-	Next 
+		
+	Next
 	Global $aCompileSourceSettings[5][2]
 ;~ 	_ArrayDisplay($asCompileSourceFiles)
 	Global $aStructCollection[2] = [0]
@@ -70,11 +71,11 @@ Func _Compile_Source()
 				$struct = ""
 				_DbgW("Read File: "& $aFIleList[$j])
 				_Compile_Source__ReadKeyValues($aFileList[$j], $target, $struct)
-				
+;~ 				MsgBox(0, 0, 0)
 				_Compile_Source__ReadIni($aFileList[$j], $struct)
-				
+;~ 				MsgBox(0, 0, 1)
 				_Compile_Source__CreateStruct($struct)
-				
+;~ 				MsgBox(0, 0, 2)
 				; Read Next File
 			Next
 			FileWrite($target, @LF)
@@ -168,9 +169,10 @@ Func _Compile_Source__ReadIni($file, ByRef $struct)
 ;~ 				_ArrayDisplay($ini_values)
 				For $k = 1 To $ini_values[0][0] Step 1
 					; If Entries to check for Struct Vars are Found they will be replaced.
-					
+					If StringRight($ini_values[$k][1], 1) = "%" Then $ini_values[$k][1] &= " "
 					_DbgW(@TAB & @TAB & "Ini Values: " & $ini_values[$k][0] & @TAB & $ini_values[$k][1])
 ;~ 					$struct = $struct & $sStructDelim & $key 
+					
 					$s = '"' & $sStructLangPrefix & $ini_values[$k][0] & '""' & $ini_values[$k][1] & '"'
 					_DbgW(@TAB & @TAB & @TAB & "String to save to Struct: " & $s)
 					$str = $str & $sStructDelim & $s

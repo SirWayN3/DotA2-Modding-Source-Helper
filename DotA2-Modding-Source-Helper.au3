@@ -49,7 +49,6 @@ _Compile_Lang_Init()
 GUISetState(@SW_SHOW)
 
 
-
 While true
 	Switch GuiGetMsg()
 		Case $GUI_EVENT_CLOSE;
@@ -60,14 +59,16 @@ While true
 			ProgressOff()
 			
 		Case $cButtonCompileSource
+			$iRunCount += 1
 			ProgressOn("", "Working...",Default,Default,Default,$DLG_MOVEABLE )
 			_Compile_Source()
 			ProgressSet(33)
 ;~ 			MsgBox(0, 0, _StrGet("Lang_name", Eval("cf_01_ab_human_cr06_01")))
 ;~ 			MsgBox(0, 0, _StrGet("Lang_type", Eval("cf_01_ab_human_cr06_01")))
-			
+
 			_Extract_Lang_From_Struct()
 			ProgressSet(66)
+			
 			
 			_Compile_Lang()
 			
