@@ -16,8 +16,8 @@ Func _Extract_Lang_From_Struct()
 	FileWrite($sExtractSourceFolderTarget & "00_ReadMe.txt", "Automatically Created Files. Any Changes will be overwritten!")
 ;~ 	$aFileHandlesExtract[1] = FileOpen($sExtractSourceFolderTarget & "NO_TARGET_APPLIED.txt", $FO_CREATEPATH + $FO_APPEND )
 	
-	
-	For $i = 1 To $aStructCollection[0] -1 Step 1
+;~ 	_ArrayDisplay($aStructCollection)
+	For $i = 1 To $aStructCollection[0] Step 1
 		$ID = $aStructCollection[$i]
 ;~ 		MsgBox(0, 0, $ID)
 		_DbgW("Extract from ID: " & $ID)
