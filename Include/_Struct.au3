@@ -29,7 +29,7 @@ EndFunc
 
 
 Func _StrSetStruct(ByRef Const $Struct)
-	If IsDllStruct($Struct) = 0 Then Return SetError(1,0,_StrDebugWrite("Internal Error, passed Struct isnt a Struct!" & @LF))
+	If IsDllStruct($Struct) = 0 Then Return SetError(1,_StrDebugWrite("StrSetStruct: Internal Error, passed 2nd Param is not a Structure!" & @LF & "StructName:" & $Struct), "")
 	$strStruct_Target = $Struct
 EndFunc
 
@@ -37,13 +37,13 @@ EndFunc
 Func _StrGet($ID,$Struct = $strStruct_Target, $silent = false)
 	If IsDllStruct($Struct) = 0 Then
 		If Not $silent Then MsgBox(16, "Error", "Passed Structure is not a Struct! " & @TAB & $Struct & @LF &  "Value " & $ID & " cant be retrieved." & @TAB & "Error: " & @error)
-		Return SetError(1,_StrDebugWrite("Internal Error, passed 2nd Param is not a Structure!" & @LF & $ID), "")
+		Return SetError(1,_StrDebugWrite("_StrGet: Internal Error, passed 2nd Param is not a Structure!" & @LF & "StructName:" & $Struct), "")
 	EndIf
 	Local $i = DllStructGetData($Struct, $ID)
 	Local $err = @error
 	If $err Then
 		If Not $silent Then MsgBox(16, "Error", "Value " & $ID & " cant be retrieved." & @TAB & "Error: " & $err & @LF & "Struct Name:" & $Struct)
-		Return SetError(1, _StrDebugWrite("Internal Error, cant get Data of Struct! Error Number: " & $err & @TAB & $ID), "")
+		Return SetError(1, _StrDebugWrite("_StrGet: Internal Error, cant get Data of Struct! Error Number: " & $err & @TAB & $ID), "")
 	EndIf
 ;~ 	_StrDebugWrite("_StrGet: ID: " & $ID & " Return Val: " & $i)
 	Return $i

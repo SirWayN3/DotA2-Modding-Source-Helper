@@ -7,6 +7,7 @@
 	Global Const $asCompileSourceFileHeader[UBound($asCompileSourceFiles)] = ['"DOTAAbilities"', '"DOTAHeroes"', '"DOTAAbilities"', '"DOTAUnits"' ]
 	Global Const $sStructDelim =  "§"
 	Global Const $sStructLangPrefix = "Lang_"
+	Global $strSnippets = ""
 
 Func _Compile_Source_Init()
 	
@@ -74,7 +75,13 @@ Func _Compile_Source()
 ;~ 				MsgBox(0, 0, 0)
 				_Compile_Source__ReadIni($aFileList[$j], $struct)
 ;~ 				MsgBox(0, 0, 1)
-				_Compile_Source__CreateStruct($struct)
+				$ID =  _Compile_Source__CreateStruct($struct)
+				$aStructCollection[0] += 1
+					If UBound($aStructCollection) -1 = $aStructCollection[0] Then 
+						ReDim $aStructCollection[UBound($aStructCollection) + 10]
+						
+					EndIf
+				$aStructCollection[ $aStructCollection[0] ] = $ID
 ;~ 				MsgBox(0, 0, 2)
 				; Read Next File
 			Next
@@ -95,7 +102,12 @@ Func _Compile_Source()
 ;~ 	_ArrayDisplay($aStructCollection)
 	_DbgW("Finished Writing to Files.")
 EndFunc 
-	
+Func _Compile_Source__ReadSnippets()
+	_Compile_Source__ReadIni($sCompileLangSnippetFile, $strSnippets)
+	_Dbgw("IsDllStruct:" & IsDllStruct(Eval("Critical_Strike"))) ; -> TRUE
+	_DbgW(_StrGet($sStructLangPrefix & "type", Eval("Critical_Strike"))) ; -> TRUE
+;~ 	MsgBox(0, 0, 0)
+EndFunc
 	
 Func _Compile_Source__ReadKeyValues($file, $target, ByRef $struct)
 	_DbgW("Read KeyValues")
@@ -184,6 +196,12 @@ Func _Compile_Source__ReadIni($file, ByRef $struct)
 					; Leading Entry for ID is missing in Struct. First Part has to be ID; else pass ID as optional Param
 					_DbgW(@TAB & @TAB & "Struct Data:" & @TAB & $str)
 					_Compile_Source__CreateStruct($sStructDelim & $str, $ini_sections[$j] )
+					$aStructCollection[0] += 1
+					If UBound($aStructCollection) -1 = $aStructCollection[0] Then 
+						ReDim $aStructCollection[UBound($aStructCollection) + 10]
+						
+					EndIf
+					$aStructCollection[ $aStructCollection[0] ] = $ini_sections[$j]
 ;~ 					MsgBox(0, 0, 0)
 				EndIf 
 			EndIf
@@ -236,12 +254,12 @@ Func _Compile_Source__CreateStruct($struct, $ID = "")
 	_DbgW(@TAB & "Created Struct for: " & $ID & @LF & @TAB & @TAB & $struct)
 	$t = Assign($ID, _StrCreate($struct), $ASSIGN_FORCEGLOBAL)
 	_DbgW(@TAB & @TAB & "Return Value from Create Struct: " & $t)
-	$aStructCollection[0] += 1
-	If UBound($aStructCollection) -1 = $aStructCollection[0] Then 
-		ReDim $aStructCollection[UBound($aStructCollection) + 10]
-		
-	EndIf
-	$aStructCollection[ $aStructCollection[0] ] =  $ID
+;~ 	$aStructCollection[0] += 1
+;~ 	If UBound($aStructCollection) -1 = $aStructCollection[0] Then 
+;~ 		ReDim $aStructCollection[UBound($aStructCollection) + 10]
+;~ 		
+;~ 	EndIf
+;~ 	$aStructCollection[ $aStructCollection[0] ] =  $ID
 	
 	; Assign Values to Struct
 ;~ 	_ArrayDisplay($val)
@@ -250,4 +268,5 @@ Func _Compile_Source__CreateStruct($struct, $ID = "")
 		_StrSet($m , $val[$m], Eval($ID) )
 	Next 
 	_DbgW()
+	Return $ID
 EndFunc

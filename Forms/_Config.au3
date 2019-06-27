@@ -18,7 +18,6 @@ Func _Ini_ReadAll($param = "")
 	$sLaunchCommand = IniRead($sPathConfig, "launch_command", "command", "")
 	$sStartDotA2Path = IniRead($sPathConfig, "launch_command", "start", "")
 	$sStartDotA2Params =  IniRead($sPathConfig, "launch_command", "params", "")
-
 EndFunc 
 
 
@@ -42,6 +41,7 @@ EndFunc
 Func _Ini_Compile_Lang_ReadAll($s, $param = "")
 	Global $sCompileLangFolderSource = _PathFull(IniRead($s, "Compile_Language", "Folder_Source" & $param, "")) & "\"
 	Global $sCompileLangFolderTarget = _PathFull(IniRead($s, "Compile_Language", "Folder_Target" & $param, "")) & "\"
+	Global $sCompileLangSnippetFile = _PathFull(IniRead($s, "Compile_Language", "Snippet_File", ""))
 EndFunc 
 	
 Func _Ini_Extract_Lang_ReadAll($s, $param = "")

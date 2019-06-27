@@ -9,7 +9,7 @@ Func _Extract_Lang_From_Struct()
 	_DbgW("Extract from Struct to Lang File")
 	#Region Init Vars
 	
-		Local $target, $ID
+		Local $target, $ID, $snippet_name, $struct
 	#EndRegion
 	DirRemove($sExtractSourceFolderTarget, $DIR_REMOVE )
 	DirCreate($sExtractSourceFolderTarget)
@@ -19,6 +19,7 @@ Func _Extract_Lang_From_Struct()
 ;~ 	_ArrayDisplay($aStructCollection)
 	For $i = 1 To $aStructCollection[0] Step 1
 		$ID = $aStructCollection[$i]
+		$struct = $ID
 ;~ 		MsgBox(0, 0, $ID)
 		_DbgW("Extract from ID: " & $ID)
 		$target = _StrGet($sStructLangPrefix & "target", Eval($ID), true)
@@ -47,27 +48,37 @@ Func _Extract_Lang_From_Struct()
 			EndIf
 		EndIf
 		#ce
-		
-		_DbgW(@TAB & "Target File: " & $target & @TAB & $aFileHandlesExtract[0])
-		Switch StringLower(_Extract_GetType($ID))
+		$snippet_name =  _Extract_GetSnippet($ID)
+		_DbgW(@TAB& "Snippet Name: " & $snippet_name)
+		If StringLen($snippet_name) <= 1 Then
+			; No Snippet has been found
+		Else
+			; Snippet has been found
+;~ 			$ID = $snippet_name
+			$struct = $snippet_name
+			_Dbgw("IsDllStruct:" & IsDllStruct(Eval("Critical_Strike"))) ; -> TRUE
+			_DbgW(_StrGet($sStructLangPrefix & "type", Eval("Critical_Strike"))) ; -> TRUE
+			MsgBox(0, "TEST", _Extract_GetType($struct) &  @LF & $struct)
+		EndIf
+		; Get Data and Write
+		Switch StringLower(_Extract_GetType($struct))
 			Case "ability", "item"
-				_Extract_WriteLine($target, "DOTA_Tooltip_Ability_" & $ID, _Extract_GetName($ID))
-				_Extract_WriteLine($target, "DOTA_Tooltip_Ability_" & $ID & "_Description", _Extract_GetDescr($ID))
-				_Extract_WriteLine($target, "DOTA_Tooltip_Ability_" & $ID & "_Lore", _Extract_GetLore($ID))
+				_Extract_WriteLine($target, "DOTA_Tooltip_Ability_" & $ID, _Extract_GetName($struct))
+				_Extract_WriteLine($target, "DOTA_Tooltip_Ability_" & $ID & "_Description", _Extract_GetDescr($struct))
+				_Extract_WriteLine($target, "DOTA_Tooltip_Ability_" & $ID & "_Lore", _Extract_GetLore($struct))
 				
 			Case "hero", "unit", "building"
-				_Extract_WriteLine($target, $ID, _Extract_GetName($ID))
+				_Extract_WriteLine($target, $ID, _Extract_GetName($struct))
 				
 			Case "modifier"
-				_Extract_WriteLine($target, "DOTA_Tooltip_" & $ID, _Extract_GetName($ID))
-				_Extract_WriteLine($target, "DOTA_Tooltip_" & $ID & "_Description", _Extract_GetDescr($ID))
+				_Extract_WriteLine($target, "DOTA_Tooltip_" & $ID, _Extract_GetName($struct))
+				_Extract_WriteLine($target, "DOTA_Tooltip_" & $ID & "_Description", _Extract_GetDescr($struct))
 				
-			
 			Case Else 
 				
-;~ 				_Extract_WriteLine($target, $id, name)
-;~ 				_Extract_WriteLine($target, $id, descr)
 		EndSwitch 
+		_DbgW(@TAB & "Target File: " & $target & @TAB & $aFileHandlesExtract[0])
+		
 		FileWriteLine($target, "")
 ;~ 		FileWriteLine($target, "")
 		_DbgW()
@@ -95,9 +106,17 @@ EndFunc
 Func _Extract_GetLore($struct)
 	Return _Extract_GetFromStruct($struct, $sStructLangPrefix & "lore")
 EndFunc
+Func _Extract_GetSnippet($struct)
+	Return _Extract_GetFromStruct($struct, $sStructLangPrefix &  "snippet")
+EndFunc
 Func _Extract_GetFromStruct($struct, $ID)
 	Local $s, $a, $b, $text, $ret, $target
+	If IsDllStruct(Eval($struct)) = 0 Then
+		MsgBox(64, "Error", "_Extract_GetFromStruct: Passed $struct is not a struct." & @LF & $struct)
+		Return
+	EndIf
 	$s = _StrGet($ID, Eval($struct), true)
+	_Dbgw(@TAB& @TAB& "Struct passed Name: " & $struct &  @TAB & "IsStruct:" &  IsDllStruct($struct))
 	$a = StringSplit($s, "$")
 	$target = $struct
 	If $a[0] > 1 Then

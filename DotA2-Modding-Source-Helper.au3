@@ -62,6 +62,7 @@ While true
 			$iRunCount += 1
 			ProgressOn("", "Working...",Default,Default,Default,$DLG_MOVEABLE )
 			_Compile_Source()
+			_Compile_Source__ReadSnippets()
 			ProgressSet(33)
 ;~ 			MsgBox(0, 0, _StrGet("Lang_name", Eval("cf_01_ab_human_cr06_01")))
 ;~ 			MsgBox(0, 0, _StrGet("Lang_type", Eval("cf_01_ab_human_cr06_01")))
